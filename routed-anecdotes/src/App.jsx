@@ -81,6 +81,12 @@ const CreateNew = (props) => {
     navigate('/')
   }
 
+  const reset = () => {
+    content.reset()
+    author.reset()
+    info.reset()
+  }
+
   return (
     <div>
       <h2>create a new anecdote</h2>
@@ -90,6 +96,7 @@ const CreateNew = (props) => {
           URL for info: <input {...info} /><br />
         <button>create</button>
       </form>
+      <button onClick={reset}>reset</button>
     </div>
   )
 }
