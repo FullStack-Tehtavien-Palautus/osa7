@@ -5,7 +5,8 @@ import {
   Route,
   Link,
   useParams,
-  useMatch
+  useMatch,
+  useNavigate
 } from 'react-router-dom'
 
 
@@ -62,6 +63,8 @@ const Footer = () => (
 
 
 const CreateNew = (props) => {
+  const navigate = useNavigate()
+
   const [content, setContent] = useState('')
   const [author, setAuthor] = useState('')
   const [info, setInfo] = useState('')
@@ -75,6 +78,7 @@ const CreateNew = (props) => {
       info,
       votes: 0
     })
+    navigate('/')
   }
 
   return (
@@ -120,11 +124,13 @@ const App = () => {
     }
   ])
 
-  const [notification, setNotification] = useState('')
+  const [notification, setNotification] = useState(null)
 
   const addNew = (anecdote) => {
     anecdote.id = Math.round(Math.random() * 10000)
     setAnecdotes(anecdotes.concat(anecdote))
+    setNotification(`Created new anecdote: ${anecdote.content}`)
+    setTimeout(() => { setNotification(null) }, 5000)
   }
 
   const anecdoteById = (id) =>
@@ -159,6 +165,7 @@ const App = () => {
         <Link to="/create" style={padding}>create</Link>
         <Link to="/about" style={padding}>about</Link>
       </div>
+      <div>{notification}</div>
       <Routes>
         <Route path="/" element={<AnecdoteList anecdotes={anecdotes} />} />
         <Route path="/create" element={<CreateNew addNew={addNew} />} />
